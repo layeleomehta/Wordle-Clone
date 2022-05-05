@@ -11,10 +11,12 @@ function App() {
   return (
     <div className="App">
       <nav><h1>Wordle</h1></nav>
-      
+
       <AppContext.Provider value={{board, setBoard}}>
-      <Board></Board>
-      <Keyboard></Keyboard>
+        <div className="game">
+          <Board></Board>
+          <Keyboard></Keyboard>
+        </div>
       </AppContext.Provider>
     </div>
   );
