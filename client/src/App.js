@@ -2,7 +2,9 @@ import './App.css';
 import React, {useState, createContext, useEffect} from 'react'; 
 import Board from './components/Board';
 import Keyboard from './components/Keyboard';
-import {boardDefault} from "./Words"; 
+import {boardDefault, generateWordSet} from "./Words"; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AppContext = createContext(); 
 
@@ -12,7 +14,17 @@ function App() {
     attemptNumber: 0, 
     letterPosition: 0
   }); 
-  const correctWord = "LAYES"; 
+  const [wordSet, setWordSet] = useState(new Set()); 
+
+  useEffect(() => {
+
+    return async () => {
+      const words = await generateWordSet(); 
+      setWordSet(words.wordBankSet); 
+    } 
+  }, []); 
+
+  const correctWord = "ALIAS"; 
 
   const onSelectLetter = (keyVal) => {
     if(currAttempt.letterPosition > 4) return; 
@@ -32,7 +44,24 @@ function App() {
 
   const onEnter = () => {
     if(currAttempt.letterPosition <= 4) return; 
-    setCurrAttempt({...currAttempt, attemptNumber: currAttempt.attemptNumber+1, letterPosition: 0}); 
+
+    let currWord = ""; 
+    for (let i=0; i<5; i++){
+      currWord += board[currAttempt.attemptNumber][i];  
+    }
+
+    currWord = currWord.toLowerCase(); 
+    if(wordSet.has(currWord)){
+      setCurrAttempt({...currAttempt, attemptNumber: currAttempt.attemptNumber+1, letterPosition: 0}); 
+    } else {
+      toast.error("Not a valid word!")
+    }
+
+    if(currWord == correctWord.toLowerCase()){
+      toast.success("You have guessed the word!")
+    }
+
+
   } 
 
 
@@ -41,6 +70,7 @@ function App() {
     <div className="App">
       <nav><h1>Wordle</h1></nav>
 
+      <ToastContainer/>
       <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord}}>
         <div className="game">
           <Board></Board>
