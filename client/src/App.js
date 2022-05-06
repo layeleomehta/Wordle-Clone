@@ -12,6 +12,7 @@ function App() {
     attemptNumber: 0, 
     letterPosition: 0
   }); 
+  const correctWord = "LAYES"; 
 
   const onSelectLetter = (keyVal) => {
     if(currAttempt.letterPosition > 4) return; 
@@ -40,7 +41,7 @@ function App() {
     <div className="App">
       <nav><h1>Wordle</h1></nav>
 
-      <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter}}>
+      <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord}}>
         <div className="game">
           <Board></Board>
           <Keyboard></Keyboard>
