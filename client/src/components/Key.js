@@ -8,6 +8,12 @@ function Key({keyVal, bigKey}) {
         if(keyVal == "ENTER"){
             if(currAttempt.letterPosition <= 4) return; 
             setCurrAttempt({...currAttempt, attemptNumber: currAttempt.attemptNumber+1, letterPosition: 0}); 
+        } else if (keyVal == "DELETE") {
+            if(currAttempt.letterPosition == 0) return; 
+            const newBoard = [...board]; 
+            newBoard[currAttempt.attemptNumber][currAttempt.letterPosition - 1] = "";
+            setBoard(newBoard); 
+            setCurrAttempt({...currAttempt, letterPosition: currAttempt.letterPosition - 1}); 
         } else {
             if(currAttempt.letterPosition > 4) return; 
             const newBoard = [...board]; 
