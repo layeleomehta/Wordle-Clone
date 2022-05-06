@@ -124,3 +124,8 @@ nav h1 {
 #disabled {
   background-color: #3a393c;
 }
+
+.gameOver {
+  margin-top: 50px;
+  background-color: black;
+}

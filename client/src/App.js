@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState, createContext, useEffect} from 'react'; 
 import Board from './components/Board';
 import Keyboard from './components/Keyboard';
+import GameOver from './components/GameOver';
 import {boardDefault, generateWordSet} from "./Words"; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +17,10 @@ function App() {
   }); 
   const [wordSet, setWordSet] = useState(new Set()); 
   const [disabledLetters, setDisabledLetters] = useState([]); 
+  const [gameOver, setGameOver] = useState({
+    gameOver: false, 
+    correctGuess: false
+  }); 
 
   useEffect(() => {
 
@@ -59,7 +64,18 @@ function App() {
     }
 
     if(currWord === correctWord.toLowerCase()){
-      toast.success("You have guessed the word!")
+      setGameOver({
+        gameOver: true, 
+        correctGuess: true
+      }); 
+      return; 
+    }
+
+    if(currAttempt.attemptNumber >= 5){
+      setGameOver({
+        gameOver: true, 
+        correctGuess: false
+      })
     }
 
 
@@ -81,11 +97,13 @@ function App() {
                                    onEnter,
                                    correctWord, 
                                    disabledLetters, 
-                                   setDisabledLetters
+                                   setDisabledLetters, 
+                                   gameOver, 
+                                   setGameOver
                                    }}>
         <div className="game">
-          <Board></Board>
-          <Keyboard></Keyboard>
+          <Board/>
+          {gameOver.gameOver ? <GameOver/> : <Keyboard/>}
         </div>
       </AppContext.Provider>
     </div>
