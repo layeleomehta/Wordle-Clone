@@ -21,16 +21,16 @@ function App() {
     gameOver: false, 
     correctGuess: false
   }); 
+  const [correctWord, setCorrectWord] = useState(""); 
 
   useEffect(() => {
 
     return async () => {
       const words = await generateWordSet(); 
       setWordSet(words.wordBankSet); 
+      setCorrectWord(words.randomWord.toUpperCase()); 
     } 
   }, []); 
-
-  const correctWord = "ALIAS"; 
 
   const onSelectLetter = (keyVal) => {
     if(currAttempt.letterPosition > 4) return; 
