@@ -15,6 +15,7 @@ function App() {
     letterPosition: 0
   }); 
   const [wordSet, setWordSet] = useState(new Set()); 
+  const [disabledLetters, setDisabledLetters] = useState([]); 
 
   useEffect(() => {
 
@@ -35,7 +36,7 @@ function App() {
   } 
 
   const onDelete = () => {
-    if(currAttempt.letterPosition == 0) return; 
+    if(currAttempt.letterPosition === 0) return; 
     const newBoard = [...board]; 
     newBoard[currAttempt.attemptNumber][currAttempt.letterPosition - 1] = "";
     setBoard(newBoard); 
@@ -57,7 +58,7 @@ function App() {
       toast.error("Not a valid word!")
     }
 
-    if(currWord == correctWord.toLowerCase()){
+    if(currWord === correctWord.toLowerCase()){
       toast.success("You have guessed the word!")
     }
 
@@ -71,7 +72,17 @@ function App() {
       <nav><h1>Wordle</h1></nav>
 
       <ToastContainer/>
-      <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord}}>
+      <AppContext.Provider value={{board, 
+                                   setBoard, 
+                                   currAttempt, 
+                                   setCurrAttempt, 
+                                   onSelectLetter, 
+                                   onDelete, 
+                                   onEnter,
+                                   correctWord, 
+                                   disabledLetters, 
+                                   setDisabledLetters
+                                   }}>
         <div className="game">
           <Board></Board>
           <Keyboard></Keyboard>
